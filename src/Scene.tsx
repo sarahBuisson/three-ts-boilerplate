@@ -2,14 +2,17 @@ import { useFrame } from '@react-three/fiber'
 import { useControls } from 'leva'
 import { Perf } from 'r3f-perf'
 import React, { useRef } from 'react'
-import { BoxGeometry, Mesh, MeshBasicMaterial } from 'three'
+import { BoxGeometry, BufferGeometry, Mesh, MeshBasicMaterial, TextureLoader } from 'three'
 import { Cube } from './components/Cube'
 import { Sphere } from './components/Sphere'
 import { Physics } from "@react-three/rapier";
 import { Player } from './components/Player';
 import { useMouseCapture } from './components/useMouseCapture';
 import { useKeyboard } from './components/useKeyboard';
-import { Ground5 } from './components/Ground5'; // Components for handling physics.
+import { Ground5 } from './components/Ground5';
+import { useTexture } from '@react-three/drei';
+import { Labyrinth } from './service/labGenerator';
+import { buildPassingMap, Kase2D, NormalTableau } from './service/tableau'; // Components for handling physics.
 
 
 function getInput(keyboard: any, mouse: { x: number, y: number }) {
@@ -23,8 +26,7 @@ function getInput(keyboard: any, mouse: { x: number, y: number }) {
     if (keyboard.get(" ")) y += 1.0; // Jump
 
     // Returning an object with the movement and look direction
-    console.log(keyboard, keyboard["s"], x, y, z
-    )
+
     return {
         move: [x, y, z],
         look: [mouse.x / window.innerWidth, mouse.y / window.innerHeight], // Mouse look direction
@@ -53,6 +55,23 @@ function Scene() {
         }
     })
 
+   // let texture = useTexture('/assets/vite.svg');
+    let geo= new BufferGeometry()
+
+    let textureStar=  new TextureLoader().load("./assets/star.png");
+    let sprites = [];
+console.log(textureStar)
+    for(let i=0;i<100;i++){
+        for (let j=0;j<100;j++){
+            let sprite =  <sprite position={[i*20-10, 10, j*20-10]} >
+                <spriteMaterial map={textureStar} />
+            </sprite>;
+
+            sprites.push(sprite);
+        }
+    }
+console.log(sprites)
+
     return (
         //camera orbitale <OrbitControls makeDefault />-->
         <>
@@ -71,9 +90,22 @@ function Scene() {
                 <Sphere/>
                 <Ground5></Ground5>
                 <Player walk={2} jump={5} input={() => getInput(keyboard, mouse)}/>
+
+                {sprites}
             </Physics>
         </>
     )
 }
 
 export { Scene }
+let kses:Kase2D[][]=[];
+for(let i=0;i<10;i++){
+    kses[i]=[]
+    for(let j=0;j<10;j++){
+        kses[i][j]=new Kase2D(i,j)
+    }
+}
+console.log("lab")
+let l =new Labyrinth(new NormalTableau(kses));
+l.fillLab()
+console.log(buildPassingMap(l.tableau).map(i=>i.map(j=>j?"|":" ").join("")).join("\n"))

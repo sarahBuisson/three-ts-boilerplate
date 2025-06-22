@@ -10,7 +10,7 @@ const heightFieldWidth = 100;
 const heightField = Array.from({
     length: heightFieldHeight * heightFieldWidth
 }).map((_, index) => {
-    return Math.random()*2-1;
+    return Math.random()*2-2;
 });
 
 const heightFieldGeometry = new PlaneGeometry(
@@ -29,16 +29,18 @@ heightFieldGeometry.rotateY(-Math.PI / 2);
 heightFieldGeometry.computeVertexNormals();
 
 export function Ground5(){
+    let args = [
+        heightFieldWidth - 1,
+        heightFieldHeight - 1,
+        heightField,
+        { x: heightFieldWidth, y: 1, z: heightFieldHeight }
+    ];
+    console.log(args)
     return  <RigidBody colliders={false} position={[0, -8, 0]}>
     <mesh geometry={heightFieldGeometry} castShadow receiveShadow>
         <meshPhysicalMaterial color="orange" side={2} />
     </mesh>
     <HeightfieldCollider
-        args={[
-            heightFieldWidth - 1,
-            heightFieldHeight - 1,
-            heightField,
-            { x: heightFieldWidth, y: 1, z: heightFieldHeight }
-        ]}
+        args={args}
     />
 </RigidBody>}

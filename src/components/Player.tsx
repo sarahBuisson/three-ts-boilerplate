@@ -1,12 +1,13 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { RigidBody } from "@react-three/rapier";
-import { useRef } from "react";
-import { Vector3 ,Mesh} from "three";
+import React, { useRef } from "react";
+import { Vector3, Mesh, TextureLoader } from "three";
 import { Raycaster, Quaternion } from "three";
 import { clamp, lerp } from "three/src/math/MathUtils";
 import * as THREE from "three";
 import { MeshProps } from '@react-three/fiber';
 import { RapierRigidBody } from '@react-three/rapier/dist/declarations/src/types';
+import { SpriteAnimator } from '@react-three/drei';
 export const Player = ({
   walk = 3,
   jump = 4,
@@ -75,6 +76,9 @@ export const Player = ({
 
     camera.quaternion.copy(gaze);
   });
+
+  let textureStar=  new TextureLoader().load("./assets/star.png");
+
   return (
     <RigidBody
       ref={api}
@@ -86,8 +90,8 @@ export const Player = ({
     >
       <mesh ref={meshR} userData={{ tag: "player" }} castShadow>
         <meshPhysicalMaterial metalness={0.5} roughness={0} />
-        <sphereGeometry args={[1, 16, 16]} />
+        <sphereGeometry args={[1, 16, 16]}></sphereGeometry>
       </mesh>
     </RigidBody>
-  );
+  );  /*   />*/
 };

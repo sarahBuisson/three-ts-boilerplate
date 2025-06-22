@@ -12,7 +12,8 @@ import { useKeyboard } from './components/useKeyboard';
 import { Ground5 } from './components/Ground5';
 import { useTexture } from '@react-three/drei';
 import { Labyrinth } from './service/labGenerator';
-import { buildPassingMap, Kase2D, NormalTableau } from './service/tableau'; // Components for handling physics.
+import { buildPassingMap, Kase2D, NormalTableau } from './service/tableau';
+import { GroundHeight } from './components/GroundHeight'; // Components for handling physics.
 
 
 function getInput(keyboard: any, mouse: { x: number, y: number }) {
@@ -63,7 +64,7 @@ function Scene() {
 console.log(textureStar)
     for(let i=0;i<100;i++){
         for (let j=0;j<100;j++){
-            let sprite =  <sprite position={[i*20-10, 10, j*20-10]} >
+            let sprite =  <sprite position={[i*20-10, 10, j*20-10]} key={`${i}-${j}`} >
                 <spriteMaterial map={textureStar} />
             </sprite>;
 
@@ -89,6 +90,9 @@ console.log(sprites)
                 <Cube ref={cubeRef}/>
                 <Sphere/>
                 <Ground5></Ground5>
+                <GroundHeight  heightField={[[1,2,3,2],[2,3,2,1],[1,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1]]}
+                               position={[0, -4 , 0]}
+                               spriteMap={[["./assets/star.png","./assets/star.png","./assets/star.png","./assets/star.png"],["./assets/star.png","./assets/star.png","./assets/star.png","./assets/star.png"]]}></GroundHeight>
                 <Player walk={2} jump={5} input={() => getInput(keyboard, mouse)}/>
 
                 {sprites}

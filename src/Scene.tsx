@@ -2,7 +2,7 @@ import { useFrame } from '@react-three/fiber'
 import { useControls } from 'leva'
 import { Perf } from 'r3f-perf'
 import React, { useRef } from 'react'
-import { BoxGeometry, BufferGeometry, Mesh, MeshBasicMaterial, TextureLoader } from 'three'
+import { BoxGeometry, BufferGeometry, Mesh, MeshBasicMaterial, TextureLoader, Vector3 } from 'three'
 import { Cube } from './components/Cube'
 import { Sphere } from './components/Sphere'
 import { Physics } from "@react-three/rapier";
@@ -13,8 +13,7 @@ import { Ground5 } from './components/Ground5';
 import { useTexture } from '@react-three/drei';
 import { Labyrinth } from './service/labGenerator';
 import { buildPassingMap, Kase2D, NormalTableau } from './service/tableau';
-import { GroundHeight } from './components/GroundHeight'; // Components for handling physics.
-
+import { GroundHeight } from './components/GroundHeight';
 
 function getInput(keyboard: any, mouse: { x: number, y: number }) {
     let [x, y, z] = [0, 0, 0];
@@ -90,11 +89,10 @@ console.log(sprites)
                 <Cube ref={cubeRef}/>
                 <Sphere/>
                 <Ground5></Ground5>
-                <GroundHeight  heightField={[[1,2,3,2],[2,3,2,1],[1,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1]]}
-                               position={[0, -4 , 0]}
-                               spriteMap={[["./assets/star.png","./assets/star.png","./assets/star.png","./assets/star.png"],["./assets/star.png","./assets/star.png","./assets/star.png","./assets/star.png"]]}></GroundHeight>
+                <GroundHeight  heightField={[[6,9,4,3],[5,4,3,2],[4,4,2,1],[0,0,0,0]]}
+                               position={new Vector3(0, 0 , 0)}
+                               spriteMap={[["./assets/vite.svg","./assets/star.png","./assets/star.png","./assets/star.png"],["./assets/star.png","./assets/star.png","./assets/star.png","./assets/star.png"],["./assets/star.png","./assets/star.png","./assets/star.png","./assets/star.png"],["./assets/star.png","./assets/star.png","./assets/star.png","./assets/star.png"]]}></GroundHeight>
                 <Player walk={2} jump={5} input={() => getInput(keyboard, mouse)}/>
-
                 {sprites}
             </Physics>
         </>

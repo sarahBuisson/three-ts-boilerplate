@@ -1,7 +1,7 @@
 import { useTexture } from "@react-three/drei";
 import { HeightfieldCollider, RigidBody } from "@react-three/rapier";
-import { PlaneGeometry, Vector3 } from 'three';
-import React, { useEffect, useState } from 'react';
+import { PlaneGeometry, Sprite, Vector3 } from 'three';
+import React, { ReactElement, useEffect, useState } from 'react';
 
 
 export function GroundHeight(props: {
@@ -41,11 +41,11 @@ export function GroundHeight(props: {
 
     })
 
-    const sprites = [];
+    const sprites:ReactElement[] = [];
     props.spriteMap?.forEach((row, y) => {
         row.forEach((sprite, x) => {
             const texture = useTexture(sprite);
-            sprites.push(<sprite key={`${x}-${y}`} position={[x, 0, y]} scale={[1, 1, 1]}>
+            sprites.push(<sprite key={`${x}-${y}`} position={[x, props.heightField[x][y], y]} scale={[1, 1, 1]}>
                 <spriteMaterial map={texture}/>
             </sprite>);
         });

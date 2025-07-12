@@ -12,6 +12,7 @@ export const Player = ({
   walk = 3,
   jump = 4,
   input = () => ({ move: [0, 0, 0], look: [0, 0] , running:false}),
+    positionInitial=new Vector3(0, 20, 0)
 }) => {
   const api = useRef< RapierRigidBody>(null); // Reference to the RigidBody API provided by "@react-three/rapier".
   const meshR = useRef< Mesh>(null); // Reference to the 3D mesh of the player character.
@@ -83,7 +84,7 @@ export const Player = ({
     <RigidBody
       ref={api}
       lockRotations
-      position={[0, 20, 0]}
+      position={positionInitial}
       friction={0.5}
       restitution={0.5}
       colliders="ball"

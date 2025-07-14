@@ -1,13 +1,13 @@
 import { useTexture } from "@react-three/drei";
 import { HeightfieldCollider, RigidBody } from "@react-three/rapier";
-import { PlaneGeometry, Sprite, Vector3 } from 'three';
+import { PlaneGeometry, Sprite, Vector2, Vector3 } from 'three';
 import React, { ReactElement, useEffect, useState } from 'react';
 
 
 export function GroundHeight(props: {
     heightField: number[][],
     position?: Vector3,
-    spriteMap?: string[][]
+    spriteMap?: (string|undefined)[][]
 }) {
     console.log(props)
 
@@ -33,8 +33,9 @@ export function GroundHeight(props: {
             newHeightFieldGeometry.attributes.position.array[index * 3 + 2] = v;
         });
         newHeightFieldGeometry.scale(1, -1, 1);
-         newHeightFieldGeometry.rotateX(-Math.PI / 2);
+        newHeightFieldGeometry.rotateX(-Math.PI / 2);
         newHeightFieldGeometry.rotateY(-Math.PI / 2);
+        newHeightFieldGeometry.translate(heightFieldWidth/2,0,heightFieldWidth/2)
         newHeightFieldGeometry.computeVertexNormals();
         setHeightFieldGeometry(newHeightFieldGeometry);
 
@@ -44,21 +45,25 @@ export function GroundHeight(props: {
     const sprites:ReactElement[] = [];
     props.spriteMap?.forEach((row, y) => {
         row.forEach((sprite, x) => {
-            const texture = useTexture(sprite);
-            sprites.push(<sprite key={`${x}-${y}`} position={[x, props.heightField[x][y], y]} scale={[1, 1, 1]}>
-                <spriteMaterial map={texture}/>
+            if(sprite){
+            const texture = useTexture(sprite!!);
+
+
+            sprites.push(<sprite key={`${x}-${y}`} position={[y, props.heightField[y][x]+0.5, x]} scale={[1, 1, 1]} >
+                <spriteMaterial map={texture} />
             </sprite>);
+            }
         });
 
     });
 
 
 
-    return <RigidBody colliders={false} position={props.position}>
+    return <RigidBody colliders={false} position={props.position} >
         <mesh geometry={heightFieldGeometry} castShadow receiveShadow position={props.position}>
             <meshPhysicalMaterial color="green" side={2}/>
         </mesh>
-        <HeightfieldCollider position={props.position}
+        <HeightfieldCollider position={new Vector3(heightFieldWidth/2,0,heightFieldWidth/2).add(props.position?props.position:new Vector3())}
 
             args={ [
                 heightFieldWidth - 1,

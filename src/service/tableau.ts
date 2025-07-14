@@ -124,22 +124,27 @@ export class HexagonalTableau<TypeKase extends Kase2D> extends Tableau<TypeKase>
 
 
 
-export function buildPassingMap<T extends Kase2D>(tableau:Tableau<T>):boolean[][]{
+export function buildPassingMap<T extends Kase2D>(tableau:Tableau<T>, passSize=1,wallSize=1):boolean[][]{
 
     const map:boolean[][]=[]
-    for (let i = 0; i < tableau.sizeX*2; i++) {
+    for (let i = 0; i < tableau.sizeX*(passSize+wallSize); i++) {
         map[i]=[]
-        for (let j = 0; j < tableau.sizeY*2; j++) {
+        for (let j = 0; j < tableau.sizeY*(passSize+wallSize); j++) {
             map[i][j]=false
 
         }
     }
     tableau.allKases().forEach((kase)=>{
-        map[kase.x*2][kase.y*2]=true
+        for(let i=0;i<passSize;i++)
+        for(let j=0;j<passSize;j++)
+        map[kase.x*(passSize+wallSize)+i][kase.y*(passSize+wallSize)+j]=true
         kase.connections.forEach((connection)=>{
             const [x,y,z]=connection.split("/").map((val)=>parseInt(val))
+            console.log("map connexion",x,y)
+            for(let k=0;k<wallSize;k++)
+                for(let l=0;l<wallSize;l++) {
 
-            map[(x*2+kase.x*2)/2][(y*2+kase.y*2)/2]=true
+                    map[(kase.x+x)*(passSize+wallSize)/2+k][(kase.y+y)*(passSize+wallSize)/2+l]=true   }
 
         })
     })

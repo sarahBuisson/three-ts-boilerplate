@@ -34,6 +34,23 @@ function getInput(keyboard: any, mouse: { x: number, y: number }) {
     };
 }
 
+let kses:Kase2D[][]=[];
+for(let i=0;i<10;i++){
+    kses[i]=[]
+    for(let j=0;j<10;j++){
+        kses[i][j]=new Kase2D(i,j)
+    }
+}
+console.log("lab")
+let l =new Labyrinth(new NormalTableau(kses));
+l.fillLab()
+
+const passingMap = buildPassingMap(l.tableau,3,3)
+
+const heightMap=passingMap.map(i=>i.map(j=>j?0:1));
+const stuffMap=passingMap.map(i=>i.map(j=>j?undefined:"./assets/tree.svg"   ));
+
+
 function Scene() {
     const keyboard = useKeyboard(); // Hook to get keyboard input
     const mouse = useMouseCapture(); // Hook to get mouse input
@@ -89,9 +106,9 @@ console.log(sprites)
                 <Cube ref={cubeRef}/>
                 <Sphere/>
                 <Ground5></Ground5>
-                <GroundHeight  heightField={[[6,9,4,3],[5,4,3,2],[4,4,2,1],[0,0,0,0]]}
+                <GroundHeight  heightField={heightMap}
                                position={new Vector3(0, 0 , 0)}
-                               spriteMap={[["./assets/vite.svg","./assets/star.png","./assets/star.png","./assets/star.png"],["./assets/star.png","./assets/star.png","./assets/star.png","./assets/star.png"],["./assets/star.png","./assets/star.png","./assets/star.png","./assets/star.png"],["./assets/star.png","./assets/star.png","./assets/star.png","./assets/star.png"]]}></GroundHeight>
+                               spriteMap={stuffMap}></GroundHeight>
                 <Player walk={2} jump={5} input={() => getInput(keyboard, mouse)}/>
                 {sprites}
             </Physics>
@@ -100,14 +117,3 @@ console.log(sprites)
 }
 
 export { Scene }
-let kses:Kase2D[][]=[];
-for(let i=0;i<10;i++){
-    kses[i]=[]
-    for(let j=0;j<10;j++){
-        kses[i][j]=new Kase2D(i,j)
-    }
-}
-console.log("lab")
-let l =new Labyrinth(new NormalTableau(kses));
-l.fillLab()
-console.log(buildPassingMap(l.tableau).map(i=>i.map(j=>j?"|":" ").join("")).join("\n"))

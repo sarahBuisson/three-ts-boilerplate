@@ -14,7 +14,6 @@ export function FigureSvg(props: { fileUrl: string,  position?: Vector3 }) {
         fileMap.set(props.fileUrl, useLoader(SVGLoader, props.fileUrl))
     }
     const svgData = fileMap.get(props.fileUrl)!!
-    console.log( props.fileUrl,svgData, svgData.paths)
 
     const shapes = svgData.paths.flatMap((path) => path.toShapes(true));
 

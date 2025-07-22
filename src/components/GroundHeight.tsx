@@ -9,7 +9,6 @@ export function GroundHeight(props: {
     position?: Vector3,
     spriteMap?: (string|undefined)[][]
 }) {
-    console.log(props)
 
     const [heightFieldWidth, setHeightFieldWidth] = useState(props.heightField[0].length);
     const [heightFieldHeight, setHeightFieldHeight] = useState( props.heightField.length);

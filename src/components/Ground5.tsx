@@ -35,7 +35,6 @@ export function Ground5(){
         heightField,
         { x: heightFieldWidth, y: 1, z: heightFieldHeight }
     ];
-    console.log(args)
     return  <RigidBody colliders={false} position={[0, -8, 0]}>
     <mesh geometry={heightFieldGeometry} castShadow receiveShadow>
         <meshPhysicalMaterial color="orange" side={2} />

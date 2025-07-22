@@ -76,11 +76,11 @@ export class Labyrinth<TypeKase extends Kase> {
             this.connectKases(kaseRandom, neighbor)
             connectedCases.push(neighbor)
             unconnectedCases = removeFromArray(unconnectedCases, neighbor)
-            console.log("N", n)
+
         }
 
         while (unconnectedCases.length > 0 && n < Math.pow(this.tableau.sizeX*this.tableau.sizeY,4)) {
-            console.log("n", n)
+
             n++
             const kase = random(unconnectedCases)
             const neighbors = this.getNeigbors(kase)
@@ -92,7 +92,6 @@ export class Labyrinth<TypeKase extends Kase> {
 
 
         }
-        console.log("fin fillLab")
     }
 
     getNeigbors(kase: TypeKase): TypeKase[] {

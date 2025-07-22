@@ -41,15 +41,15 @@ for(let i=0;i<10;i++){
         kses[i][j]=new Kase2D(i,j)
     }
 }
-console.log("lab")
+
 let l =new Labyrinth(new NormalTableau(kses));
 l.fillLab()
 
 const passingMap = buildPassingMap(l.tableau,3,3)
 
-const heightMap=passingMap.map(i=>i.map(j=>j?0:1));
+const heightMap:number[][]=passingMap.map(i=>i.map(j=>j?0:1));
 const stuffMap=passingMap.map(i=>i.map(j=>j?undefined:"./assets/tree.svg"   ));
-
+heightMap[0][0]=20;
 
 function Scene() {
     const keyboard = useKeyboard(); // Hook to get keyboard input
@@ -77,7 +77,7 @@ function Scene() {
 
     let textureStar=  new TextureLoader().load("./assets/star.png");
     let sprites = [];
-console.log(textureStar)
+
     for(let i=0;i<100;i++){
         for (let j=0;j<100;j++){
             let sprite =  <sprite position={[i*20-10, 10, j*20-10]} key={`${i}-${j}`} >
@@ -87,7 +87,7 @@ console.log(textureStar)
             sprites.push(sprite);
         }
     }
-console.log(sprites)
+
 
     return (
         //camera orbitale <OrbitControls makeDefault />-->

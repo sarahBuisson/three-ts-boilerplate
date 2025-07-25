@@ -53,7 +53,6 @@ export class Labyrinth<TypeKase extends Kase> {
     }
 
     fillLab() {
-        console.log("fillLab")
         const start = this.tableau.randomKase()
         const firstConnect = random(this.getNeigbors(start))
         this.connectKases(start, firstConnect)
@@ -61,14 +60,13 @@ export class Labyrinth<TypeKase extends Kase> {
         const connectedCases = [start, firstConnect]
         let unconnectedCases = removeFromArray(this.tableau.allKases(), start, firstConnect)
         let n = 0;
-        console.log(this.tableau.allKases(), connectedCases, unconnectedCases)
-        while (unconnectedCases.length > connectedCases.length && n < Math.pow(this.tableau.sizeX*this.tableau.sizeY,3)) {
+        while (unconnectedCases.length > connectedCases.length && n < Math.pow(this.tableau.sizeX * this.tableau.sizeY, 3)) {
             n++
             const kaseRandom = random(connectedCases)
             const neighbors = this.getNeigbors(kaseRandom)
                 .filter(kase => kase.connections.length === 0)
 
-            if (neighbors.length==0) {
+            if (neighbors.length == 0) {
                 console.error("no nei", neighbors);
                 continue;
             }
@@ -79,12 +77,13 @@ export class Labyrinth<TypeKase extends Kase> {
 
         }
 
-        while (unconnectedCases.length > 0 && n < Math.pow(this.tableau.sizeX*this.tableau.sizeY,4)) {
-
-            n++
+        while (unconnectedCases.length > 0 && n < Math.pow(this.tableau.sizeX * this.tableau.sizeY, 4)) {
+            n++;
             const kase = random(unconnectedCases)
             const neighbors = this.getNeigbors(kase)
-                .filter(kase => kase.connections.length >= 0)
+                .filter(kase => kase.connections.length > 0)
+            if (neighbors.length == 0)
+                continue
             const neighbor = random(neighbors)
             this.connectKases(kase, neighbor)
             connectedCases.push(kase)

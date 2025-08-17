@@ -3,8 +3,9 @@ import { Leva } from 'leva'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
-import { Scene } from './Scene'
+import { Scene } from './components/labyrinthGame/Scene'
 import './styles/main.css'
+import { AquariumScene } from './components/aquarium/AquariumScene';
 
 function Main() {
   return (
@@ -37,7 +38,7 @@ function Main() {
         }}
         shadows
       >
-        <Scene />
+        <AquariumScene />
       </Canvas>
     </div>
   )

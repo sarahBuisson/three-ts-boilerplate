@@ -3,19 +3,24 @@ import { BoxGeometry, BufferGeometry, Mesh } from 'three';
 import { useFrame } from '@react-three/fiber';
 import Buffer from 'three/src/renderers/common/Buffer';
 
-export function deform(geometry: BufferGeometry): BufferGeometry{
+export function deform(geometry: BufferGeometry, maxY:number, decalage:number=0): BufferGeometry{
     const position = geometry.attributes.position;
 
     // Déformez une face spécifique (par exemple, la face supérieure)
     for (let i = 0; i < position.count; i++) {
+
         const x = position.getX(i);
         const y = position.getY(i);
         const z = position.getZ(i);
 
         // Appliquez une déformation conditionnelle
-        //   if (y > 0.5) { // Face supérieure
-        position.setY(i,y+Math.random()); // Exemple de déformation
-        // }
+        if (y == maxY) { // Face supérieure
+
+            let number = y +(z+decalage)%3-1+x%2;
+            console.log(y, number)
+            position.setXYZ(i, x, number, z); // Exemple de déformation
+
+        }
     }
 
     // Indique que les positions ont été mises à jour
@@ -48,7 +53,7 @@ export function DeformedBox() {
     React.useEffect(() => {
         if (boxRef.current) {
             const geometry = boxRef.current.geometry as BoxGeometry;
-            deform(geometry);
+            deform(geometry,geometry.wid);
         }
     }, []);
 

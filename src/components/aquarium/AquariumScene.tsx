@@ -2,11 +2,13 @@ import { useFrame } from '@react-three/fiber'
 import { useControls } from 'leva'
 import { Perf } from 'r3f-perf'
 import React, { useRef } from 'react'
-import { BoxGeometry, Camera, BufferGeometry, Mesh, MeshBasicMaterial, TextureLoader } from 'three'
+import { BoxGeometry, Camera, BufferGeometry, Mesh, MeshBasicMaterial, TextureLoader ,Vector3} from 'three'
 import { Physics } from "@react-three/rapier";
 import { Aquarium } from '../aquarium/Aquarium';
+import { PositionPointer } from '../common/position';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 
+const aquariumRadius = 20
 export function AquariumScene() {
 
     const {performance} = useControls('Monitoring', {
@@ -25,13 +27,9 @@ export function AquariumScene() {
     return (
         //camera orbitale <OrbitControls makeDefault />-->
         <>
-            <OrbitControls makeDefault  scale={[40,40,40]} />
-        <!    <PerspectiveCamera
-                makeDefault
-                position={[500, 0.9, 0]}
-                fov={60}
-                zoom={0.9}
-            />
+            <OrbitControls makeDefault  scale={[aquariumRadius*2,aquariumRadius*2,aquariumRadius*2]} 
+			target={[0,-aquariumRadius,0]} />
+     
             {performance && <Perf position='top-left'/>}
 
 
@@ -42,10 +40,12 @@ export function AquariumScene() {
                 shadow-mapSize={[1024 * 2, 1024 * 2]}
             />
             <ambientLight intensity={0.2}/>
-            <Physics debug>
-
-                <Aquarium radius={20} epaisseur={1} waterLevel={7}></Aquarium>
+            <Physics >
+                <Aquarium radius={aquariumRadius} epaisseur={1} waterLevel={aquariumRadius*1.65}></Aquarium>
             </Physics>
+			
+			
+			<PositionPointer position={new Vector3(100,100,100)}/>
         </>
     )
 }

@@ -9,12 +9,10 @@ import { Physics } from "@react-three/rapier";
 import { Player } from './Player';
 import { useMouseCapture } from './useMouseCapture';
 import { useKeyboard } from './useKeyboard';
-import { useTexture } from '@react-three/drei';
 import { Labyrinth } from '../../service/labGenerator';
 import { buildPassingMap, Kase2D, NormalTableau } from '../../service/tableau';
 import { GroundHeight } from './GroundHeight';
 import { SpriteCustom } from './SpriteCustom';
-import { Aquarium, Aquarium2 } from '../aquarium/Aquarium';
 import { DeformedBox } from '../aquarium/DeformedBox';
 
 function getInput(keyboard: any, mouse: { x: number, y: number }) {
@@ -50,14 +48,15 @@ l.fillLab()
 const passingMap = buildPassingMap(l.tableau, 3, 3)
 
 const heightMap: number[][] = passingMap.map(i => i.map(j => j ? 0 : 1));
+// @ts-ignore
 const stuffMap: ((v: Vector3) => ReactElement | string | undefined)[][] = passingMap
     .map(i => i.map(j => j ? undefined : (position: Vector3) =>
         SpriteCustom({
-            position,
-            textureName: "./assets/tree.svg",
-            key: "" + position.x + " " + position.y + " " + position.z
-        }
-    ) as (ReactElement)));
+                position,
+                textureName: "./assets/tree.svg",
+                key: "" + position.x + " " + position.y + " " + position.z
+            }
+        ) as (ReactElement)));
 heightMap[0][0] = 20;
 
 function Scene() {
@@ -119,8 +118,7 @@ function Scene() {
                               spriteMap={stuffMap}></GroundHeight>
                 <Player walk={2} jump={5} input={() => getInput(keyboard, mouse)}/>
                 {sprites}
-<DeformedBox></DeformedBox>
-                <Aquarium radius={8} epaisseur={1} waterLevel={7}></Aquarium>
+                <DeformedBox></DeformedBox>
             </Physics>
         </>
     )

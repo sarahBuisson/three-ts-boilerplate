@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import { CatmullRomCurve3, Mesh, Vector3 } from 'three';
 
 export default function MovingObject(props: React.PropsWithChildren<{ points:Vector3[] , speed:number}>) {
-    const ref = useRef<Mesh>();
+    const ref = useRef<Mesh>(null);
 
 
 // Create the CatmullRomCurve3

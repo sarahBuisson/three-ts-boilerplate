@@ -6,6 +6,7 @@ import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { Scene } from './components/labyrinthGame/Scene'
 import './styles/main.css'
 import { AquariumScene } from './components/aquarium/AquariumScene';
+import { CSGScene } from './components/aquarium/CSGScene';
 
 function Main() {
   return (

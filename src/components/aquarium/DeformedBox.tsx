@@ -1,7 +1,5 @@
 import React, { useRef } from 'react';
 import { BoxGeometry, BufferGeometry, Mesh } from 'three';
-import { useFrame } from '@react-three/fiber';
-import Buffer from 'three/src/renderers/common/Buffer';
 
 export function deform(geometry: BufferGeometry, maxY:number, decalage:number=0): BufferGeometry{
     const position = geometry.attributes.position;
@@ -17,7 +15,7 @@ export function deform(geometry: BufferGeometry, maxY:number, decalage:number=0)
         if (y == maxY) { // Face supérieure
 
             let number = y +(z+decalage)%3-1+x%2;
-            console.log(y, number)
+
             position.setXYZ(i, x, number, z); // Exemple de déformation
 
         }
@@ -53,7 +51,7 @@ export function DeformedBox() {
     React.useEffect(() => {
         if (boxRef.current) {
             const geometry = boxRef.current.geometry as BoxGeometry;
-            deform(geometry,geometry.wid);
+            deform(geometry,2);
         }
     }, []);
 

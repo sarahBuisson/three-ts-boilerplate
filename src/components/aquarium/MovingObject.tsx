@@ -12,8 +12,9 @@ export default function MovingObject(props: React.PropsWithChildren<{ points:Vec
     let t = 0; // Time variable
 
     useFrame(() => {
-        t += 0.01; // Increment time
+        t += props.speed; // Increment time
         if (t > 1) t = 0; // Loop back to start
+        if (t < 0) t = 0; // Loop back to start
 
         // Get position and tangent at time `t`
         const position = curve.getPointAt(t);

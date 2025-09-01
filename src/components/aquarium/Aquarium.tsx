@@ -166,20 +166,9 @@ export function Aquarium(props: { radius: number, epaisseur: number, waterLevel?
         <>
             <mesh geometry={bocal}>
                <meshNormalMaterial side={DoubleSide}/>
-                {/*
-
-                  <MeshPortalMaterial>
-
-                    <GradientTexture
-                        stops={[0, 1]} // As many stops as you want
-                        colors={['aquamarine', 'hotpink']} // Colors need to match the number of stops
-                        size={1024} // Size is optional, default = 1024
-                    />
-                </MeshPortalMaterial>
-                */}
                  <meshStandardMaterial color="white" transparent={true}
                                       opacity={0.5}
-                                      metalness={0.9}
+                                      metalness={0.1}
                                       roughness={0.05} depthWrite={false}
 
                                       side={DoubleSide}/>

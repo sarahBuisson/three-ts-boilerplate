@@ -1,7 +1,7 @@
 import { MeshProps, useLoader } from "@react-three/fiber";
 import React, { useMemo } from "react";
 import * as T from "three";
-import { ShapePath } from "three";
+import { Color, ShapePath } from "three";
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
 
 type  ExtrudedSvgProps = MeshProps & {
@@ -72,7 +72,7 @@ const ExtrudedSvg = (props: ExtrudedSvgProps) => {
                             />
                             <meshPhongMaterial
                                 attach="material"
-                                color={svgData.paths[i].color}
+                                color={svgData.paths[i].color.add(new Color(2,0,0))}
                                 side={T.DoubleSide}
                             />
                         </mesh>

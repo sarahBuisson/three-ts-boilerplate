@@ -17,7 +17,7 @@ function buildFishPath(radius: number, decalage: number = 0) {
     const points = Array.from({length: 8}, (_, i) => {
         const angle = i * angleStep;
         return new Vector3(
-            Math.cos(angle) * radius + (Math.random() - 0.5) * radius, // X coordinate
+            Math.cos(angle) * radius + (Math.random() - 0.5) * radius/3, // X coordinate
             0,                        // Y coordinate (flat on the XZ plane)
             Math.sin(angle) * radius // Z coordinate
         );
@@ -48,13 +48,13 @@ export function AquariumScene() {
 
     const points1: Vector3[] = buildFishPath(aquariumRadius / 2 - 5, 1);
     const points2: Vector3[] = buildFishPath(aquariumRadius / 2 - 2, 3);
-    const points3: Vector3[] = buildFishPath(aquariumRadius / 3 - 3, 5);
+    const points3: Vector3[] = buildFishPath(aquariumRadius / 3 - 1, 5);
     return (
         //camera orbitale <OrbitControls makeDefault />-->
         <>
             <HDRIEnvironment></HDRIEnvironment>
-            <OrbitControls makeDefault scale={[aquariumRadius * 2, aquariumRadius * 2, aquariumRadius * 2]}
-                           target={[0, -aquariumRadius, 0]}/>
+            <OrbitControls makeDefault scale={[aquariumRadius * 20, aquariumRadius * 20, aquariumRadius * 20]}
+                           target={[0, aquariumRadius/2, 0]}/>
 
             {performance && <Perf position='top-left'/>}
 
@@ -74,7 +74,7 @@ export function AquariumScene() {
             <DynamicSvg
                 scale={new Vector3(5,5,4)}
                 filePath={"./assets/rocksNew.svg"}
-                        showId={"XMLID_720_"}
+                        showId={"XMLID_6_"}
                         position={points1[6].add(new Vector3(0, -5, 0))}
             ></DynamicSvg>
             <DynamicSvg filePath={"./assets/rocksNew.svg"}
@@ -88,16 +88,16 @@ export function AquariumScene() {
                 <Aquarium radius={aquariumRadius} epaisseur={1} waterLevel={aquariumRadius * 1.65}></Aquarium>
             </Physics>
             {/**/}
-            <MovingObject points={points1} speed={0.2}>
-                <ExtrudedSvg svgPath={"assets/fishs2New.svg"} idInSvg={"fish1"} maxWidth={10}></ExtrudedSvg>
+            <MovingObject points={points1} speed={0.0061}>
+                <ExtrudedSvg svgPath={"assets/fishs2New.svg"} idInSvg={"fish2"} maxWidth={10}  ></ExtrudedSvg>
 
             </MovingObject>
-            <MovingObject points={points2} speed={0.2}>
-                <ExtrudedSvg svgPath={"assets/fishs2New.svg"} idInSvg={"fish2"} maxWidth={10}></ExtrudedSvg>
+            <MovingObject points={points2} speed={0.0052}>
+                <ExtrudedSvg svgPath={"assets/fishs2New.svg"} idInSvg={"fish1"} maxWidth={10}   scale={new Vector3(1,-1,-1)}></ExtrudedSvg>
 
             </MovingObject>
-            <MovingObject points={points3} speed={0.2}>
-                <ExtrudedSvg svgPath={"assets/fishs2New.svg"} idInSvg={"fish3"} maxWidth={10}></ExtrudedSvg>
+            <MovingObject points={points3} speed={0.002}>
+                <ExtrudedSvg svgPath={"assets/fishs2New.svg"} idInSvg={"fish3"} maxWidth={10}  ></ExtrudedSvg>
 
             </MovingObject>
 

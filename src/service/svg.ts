@@ -23,7 +23,7 @@ export function toSplitedSvg(svgString: string): string {
     paths.forEach((path) => {
 
         const bbox =getBoundingBoxFromSvgPathWithoutGetBBox(path)
-        console.log(bbox)
+
         path.id=JSON.stringify(bbox)
         if(bbox.x==0&& bbox.y==0){
             console.error("ignore this path")
@@ -34,7 +34,7 @@ export function toSplitedSvg(svgString: string): string {
     });
     boundingBoxes.pop()// on retire le 1er path
 
-    console.log(boundingBoxes)
+
 
     for(let i=0;i<boundingBoxes.length;i++){
         boundingBoxes.forEach((box1) => {
@@ -42,7 +42,7 @@ export function toSplitedSvg(svgString: string): string {
                 if (box1 != box2) {
 
                     if (doRectsIntersect(box1.rect, box2.rect)) {
-                        console.log("intersect")
+
                         box1.groups.push(box2.path)
                         box1.groups.push(...box2.groups)
                         box1.rect= mergePathIntoBox([...box1.groups, ...box2.groups])
@@ -55,7 +55,6 @@ export function toSplitedSvg(svgString: string): string {
     }
     let defs = doc.querySelector('defs');
 
-    console.log(boundingBoxes)
     if (!defs) {
         defs = doc.createElementNS('http://www.w3.org/2000/svg', 'defs');
         doc.documentElement.appendChild(defs);

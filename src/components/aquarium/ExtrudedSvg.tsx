@@ -15,10 +15,9 @@ const ExtrudedSvg = (props: ExtrudedSvgProps) => {
         useMemo(() => {
 
             if (props.idInSvg) {
-                console.log(svgData)
 
                 const group = svgData.paths.filter((path) => path?.userData?.node?.parentNode.id == props.idInSvg);
-                console.log(group)
+
 
                 if (!group || group.length == 0) {
                     console.warn(`Group with ID "${props.idInSvg}" not found in SVG.`);
@@ -39,17 +38,17 @@ const ExtrudedSvg = (props: ExtrudedSvgProps) => {
             return averagePathCompute(svgData.paths);
         }, [svgData, props.idInSvg, shapes]);
 
-    console.log(pathMathAverage)
+
     let scale = props.maxWidth ? (1 * props.maxWidth / (pathMathAverage.xMax - pathMathAverage.xMin)) : 1;
-    console.log(scale)
+
     const xDec = (pathMathAverage.xMax - pathMathAverage.xMin) * scale / 4;
     const yDec = (pathMathAverage.yMax - pathMathAverage.yMin) * scale / 4;
-    console.log(xDec, yDec)
+
     return (
         <>
 
 
-            <mesh scale={scale} position={[xDec, yDec, 0]}>
+            <mesh scale={scale} position={[xDec, yDec, 0]} >
                 {shapes.map((s, i) => {
                     let math = pathCompute(svgData.paths[i])
 

@@ -20,7 +20,7 @@ const DynamicSvg = (props: {
                 const response = await fetch(props.filePath);
                 const svgContent = await response.text();
                 let svgProcess = props.svgProcess;
-                console.log(props.showId)
+
                 if (props.showId)
                     svgProcess = (svg: string) => {
                         // Modify the SVG content to include an ID attribute
@@ -38,7 +38,7 @@ const DynamicSvg = (props: {
                         paths.forEach((path) => {
 
                             const bbox = getBoundingBoxFromSvgPathWithoutGetBBox(path)
-                            console.log(bbox)
+
                             path.id = JSON.stringify(bbox)
                             if (bbox.x == 0 && bbox.y == 0) {
                                 console.error("ignore this path")
@@ -49,46 +49,45 @@ const DynamicSvg = (props: {
                         });
                         boundingBoxes.pop()// on retire le 1er path
 
-                        console.log(boundingBoxes)
+
 
                         const boundBoxe = mergePathIntoBox(boundingBoxes.map(it => it.path))
-                        console.log(boundBoxe)
+
 
                         let svgStr = !!svgElement ? new XMLSerializer().serializeToString(svgElement) : "";
                         const rootAttr = svgDoc.rootElement!!.getAttributeNames()
-                        console.log(rootAttr)
 
-                        let attrStr = rootAttr.filter(it=>it!="viewBox").map((attr) => {
+
+                        let attrStr = rootAttr.filter(it => it != "viewBox").map((attr) => {
                             return attr += "=\"" + svgDoc.rootElement!!.getAttribute(attr)!!.valueOf() + "\" ";
                         }).join(" ")
-                        console.log(attrStr)
                         //    svgElement.box
-                        attrStr = `  viewBox="${Math.round(boundBoxe.x)} ${Math.round(boundBoxe.y)} ${Math.round( boundBoxe.width)} ${Math.round(boundBoxe.height)}"  `+attrStr
+                        attrStr = `  viewBox="${Math.round(boundBoxe.x)} ${Math.round(boundBoxe.y)} ${Math.round(boundBoxe.width)} ${Math.round(boundBoxe.height)}"  ` + attrStr
                         return "<svg " + attrStr + ">" + svgStr + "</svg>";
 
                     }
                 // Convert the SVG content to a Blob
                 let blobContent = svgProcess ? svgProcess(svgContent) : svgContent;
-                console.log(svgProcess)
-                console.log(blobContent)
+
                 const blob = new Blob([blobContent], {type: "image/svg+xml;charset=utf-8"});
                 const url = URL.createObjectURL(blob);
 
                 // Load the Blob as a texture
                 const loader = new THREE.TextureLoader();
-              return await  loader.load(url, (loadedTexture) => {
+                return await loader.load(url, (loadedTexture) => {
                     setTexture(loadedTexture);
-                  //  URL.revokeObjectURL(url); // Clean up the URL
-                  return loadedTexture;
+                    //  URL.revokeObjectURL(url); // Clean up the URL
+                    return loadedTexture;
                 });
             } catch (error) {
                 console.error("Error loading SVG texture:", error);
             }
         };
 
-        loadSvgTexture().then(tex => { tex?setTexture(tex):null});
+        loadSvgTexture().then(tex => {
+            tex ? setTexture(tex) : null
+        });
     }, []);
-console.log(texture)
     return (
         <>
             {texture && (

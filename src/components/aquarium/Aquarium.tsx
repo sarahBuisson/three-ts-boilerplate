@@ -3,6 +3,7 @@ import { BoxGeometry, DoubleSide, Material, Matrix4, Mesh, SphereGeometry } from
 import { CSG } from 'three-csg-ts';
 import { BufferGeometry } from 'three/src/core/BufferGeometry';
 import { deform } from './DeformedBox';
+import { useTexture } from '@react-three/drei';
 
 class AquariumGeometrie {
     constructor(public bocal: BufferGeometry,
@@ -30,7 +31,6 @@ function generateAquariumGeometrie(props: {
     material?: Material
 }): AquariumGeometrie {
 
-    console.log("generateAquariumGeometrie")
     // Créer la première sphère
     let radius = props.radius;
     let diametre = radius * 2;
@@ -131,16 +131,18 @@ function generateAquariumGeometrie(props: {
 
 
 export function Aquarium(props: { radius: number, epaisseur: number, waterLevel?: number, material?: Material }) {
-
-
+    const waterTexture=useTexture('./assets/water.jpg')
+    const sandTexture=useTexture('./assets/marble.svg')
     const [geometries, setGeometries] = useState<AquariumGeometrie>()
     const [bocal, setBocal] = useState<BufferGeometry>()
     const [cone, setCone] = useState<BufferGeometry>()
     const [intervalOfRefreshUseframe, setintervalOfRefreshUseframe] = useState(0)
+
     if (geometries == null) {
         let aquariumGeometrie = generateAquariumGeometrie(props);
         setGeometries(aquariumGeometrie)
         setBocal(aquariumGeometrie.bocal)
+
     }
     const refBocal = useRef<Mesh>()
 
@@ -182,7 +184,9 @@ export function Aquarium(props: { radius: number, epaisseur: number, waterLevel?
 */}
             {<mesh geometry={geometries?.water}>
 
-                <meshStandardMaterial color="lightblue" transparent={true}
+                <meshStandardMaterial  transparent={true}
+                                      map={waterTexture}
+
                                       opacity={0.4} metalness={0.5} roughness={0.05}
                                       depthWrite={false}
                                       side={DoubleSide}/>
@@ -198,6 +202,7 @@ export function Aquarium(props: { radius: number, epaisseur: number, waterLevel?
 
                 <meshPhysicalMaterial color="yellow"
                                       metalness={0.5}
+                                      map={sandTexture}
                                       roughness={1}
                                       side={DoubleSide}/>
 
@@ -207,6 +212,7 @@ export function Aquarium(props: { radius: number, epaisseur: number, waterLevel?
             <mesh geometry={geometries?.sand2} castShadow receiveShadow>
                 <meshPhysicalMaterial color="white"
                                       metalness={0.5}
+                                      map={sandTexture}
                                       roughness={1}
                                       side={DoubleSide}/>
 
@@ -217,6 +223,7 @@ export function Aquarium(props: { radius: number, epaisseur: number, waterLevel?
                 <meshPhysicalMaterial color="orange"
                                       metalness={0.5}
                                       roughness={1}
+                                      map={sandTexture}
                                       />
 
 

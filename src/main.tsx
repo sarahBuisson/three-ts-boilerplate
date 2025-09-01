@@ -9,19 +9,7 @@ import { AquariumScene } from './components/aquarium/AquariumScene';
 function Main() {
   return (
     <div className='main'>
-      <Leva
-        collapsed={false}
-        oneLineLabels={false}
-        flat={true}
-        theme={{
-          sizes: {
-            titleBarHeight: '28px',
-          },
-          fontSizes: {
-            root: '10px',
-          },
-        }}
-      />
+        <p>Navigate with an orbital camera: click and move the mouse, zoom</p>
       <Canvas
         dpr={[1, 2]}
         gl={{

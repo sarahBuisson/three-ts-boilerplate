@@ -54,7 +54,7 @@ export function AquariumScene() {
         <>
             <HDRIEnvironment></HDRIEnvironment>
             <OrbitControls makeDefault scale={[aquariumRadius * 20, aquariumRadius * 20, aquariumRadius * 20]}
-                           target={[0, aquariumRadius/2, 0]}/>
+                           target={[0, aquariumRadius/2, 0]} />
 
             {performance && <Perf position='top-left'/>}
 
